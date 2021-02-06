@@ -1,53 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dynamic table</title>
     <style>
-        table, tr, td, th {
+        table,
+        tr,
+        td,
+        th {
             border: 1px solid green;
             border-collapse: collapse;
         }
     </style>
 </head>
+
 <body>
 
     <table id="e-table">
         <tr>
-            <th>S NO</th>
-            <th>NAME</th>
-            <th>AGE</th>
             <th>ID</th>
+            <th>NAME</th>
+            <th>username</th>
         </tr>
-        
+
     </table>
-    
+
     <script>
         'use strict';
         const eTable = document.getElementById('e-table');
         const x = new XMLHttpRequest();
         x.open('GET', 'https://jsonplaceholder.typicode.com/users');
         x.send();
-x.addEventListener('onload', () =>{
-    const details = JSON.parse(x.responseText);
-    const requiredFields = [
-        'id',
-        'name',
-        'username',
-    ];
-})
+        x.addEventListener('load', () => {
+            const details = JSON.parse(x.responseText);
+            details.forEach(addRow);
+        });
+
+        const requiredFields = [
+            'id',
+            'name',
+            'username',
+        ];
+
         function addRow(data) {
             const row = eTable.insertRow();
-            [...Object.values(data)].forEach(v => {
+            requiredFields.forEach(k => {
                 const td = row.insertCell();
-                td.innerText = v;
-
+                td.innerText = data[k];
             });
         }
-
-        // list.forEach(addRow)
     </script>
 </body>
+
 </html>
